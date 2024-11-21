@@ -1,0 +1,105 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Calculadora de Huella de Carbono</h1>
+    <div id="progress-bar" class="progress mb-4">
+        <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 0%;" id="progress"></div>
+    </div>
+
+    <!-- Preguntas -->
+    <form id="formulario">
+        <!-- Pregunta 1 -->
+        <div class="question-section active" id="question-1">
+            <h3 class="text-center">¿Qué tipo de dieta tienes?</h3>
+            <div class="option-button" data-next="2" data-value="omnivora">Omnívora</div>
+            <div class="option-button" data-next="2" data-value="vegetariana">Vegetariana</div>
+            <div class="option-button" data-next="2" data-value="vegana">Vegana</div>
+        </div>
+
+        <!-- Pregunta 2 -->
+        <div class="question-section" id="question-2">
+            <h3 class="text-center">¿Qué tipo de transporte usas con mayor frecuencia?</h3>
+            <div class="option-button" data-next="3" data-value="auto">Auto</div>
+            <div class="option-button" data-next="3" data-value="publico">Transporte Público</div>
+            <div class="option-button" data-next="3" data-value="bicicleta">Bicicleta</div>
+            <div class="option-button" data-next="3" data-value="a_pie">A pie</div>
+        </div>
+
+        <!-- Pregunta 3 -->
+        <div class="question-section" id="question-3">
+            <h3 class="text-center">¿Cuánta distancia recorres mensualmente (km)?</h3>
+            <input type="number" class="form-control mb-3" id="distancia" placeholder="Ingrese la distancia en km">
+            <button type="button" class="btn btn-success w-100" data-next="4">Siguiente</button>
+        </div>
+
+        <!-- Pregunta 4 -->
+        <div class="question-section" id="question-4">
+            <h3 class="text-center">¿Cuánta energía consumes mensualmente (kWh)?</h3>
+            <input type="number" class="form-control mb-3" id="energia" placeholder="Ingrese el consumo en kWh">
+            <button type="button" class="btn btn-success w-100" data-next="5">Siguiente</button>
+        </div>
+
+        <!-- Resultado -->
+        <div class="question-section" id="question-5">
+            <h3 class="text-center">Resultado</h3>
+            <p>Tu huella de carbono estimada es: <strong id="resultado-co2"></strong> kg CO₂</p>
+            <button type="submit" class="btn btn-success w-100">Recalcular</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const progress = document.getElementById('progress');
+        const sections = document.querySelectorAll('.question-section');
+        const buttons = document.querySelectorAll('.option-button, .btn'); // Incluye todos los botones
+        let currentStep = 1;
+
+        // Agregar eventos a todos los botones
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                const next = button.getAttribute('data-next');
+                if (next) {
+                    goToSection(next);
+                }
+            });
+        });
+
+        // Función para cambiar de sección
+        function goToSection(section) {
+            sections.forEach(sec => sec.classList.remove('active')); // Oculta todas las secciones
+            const targetSection = document.getElementById(`question-${section}`);
+            if (targetSection) {
+                targetSection.classList.add('active'); // Muestra la sección seleccionada
+                currentStep = section;
+                updateProgress(section);
+            }
+        }
+
+        // Función para actualizar la barra de progreso
+        function updateProgress(step) {
+            const totalSteps = sections.length;
+            const progressPercentage = ((step - 1) / (totalSteps - 1)) * 100;
+            progress.style.width = `${progressPercentage}%`;
+        }
+
+        // Cálculo de la huella de carbono en la última sección
+        const calcularBtn = document.querySelector('#question-4 button[data-next="5"]');
+        calcularBtn.addEventListener('click', () => {
+            const distancia = document.getElementById('distancia').value || 0;
+            const energia = document.getElementById('energia').value || 0;
+            const co2 = calcularHuella(distancia, energia); // Llama a la función de cálculo
+            document.getElementById('resultado-co2').innerText = `${co2} kg CO₂`;
+        });
+
+        function calcularHuella(distancia, energia) {
+            let co2 = 0;
+            co2 += distancia * 0.21; // Cada km genera 0.21 kg de CO₂
+            co2 += energia * 0.5;   // Cada kWh genera 0.5 kg de CO₂
+            return co2.toFixed(2);  // Devuelve el valor con dos decimales
+        }
+    });
+</script>
+{% endblock %}

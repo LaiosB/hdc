@@ -1,0 +1,48 @@
+{% extends 'mapa/mapb.html' %}
+
+{% block map_content %}
+
+<div class="row mt-5"> 
+    <div class="col-md-4">
+        <h3>Mapa USM</h3>
+        <p class="lead">Edificios de la USM</p>
+
+        <ol class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-start mb-2"> <!-- Clase mb-2 para margen inferior -->
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold fs-4">Edificio A</div>
+                </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start mb-2"> <!-- Clase mb-2 para margen inferior -->
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold fs-4">Edificio B</div>
+                </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start mb-2"> <!-- Clase mb-2 para margen inferior -->
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold fs-4">Edificio C</div>
+                </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start mb-2"> <!-- Clase mb-2 para margen inferior -->
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold fs-4">Edificio E</div>
+                </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start mb-2"> <!-- Clase mb-2 para margen inferior -->
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold fs-4">Edificio F</div>
+                </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start mb-2"> <!-- Clase mb-2 para margen inferior -->
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold fs-4">Edificio K</div>
+                </div>
+            </li>
+        </ol>
+    </div>
+    <div class="col-md-8">
+        {{ mapa|safe }}
+    </div>
+</div>
+
+{% endblock %}
