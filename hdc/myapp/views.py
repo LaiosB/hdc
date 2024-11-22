@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login
 from myapp import forms
 from.forms import FormCalculadora
 from. models import Huella
+from django.contrib import messages
 import folium
 # Create your views here.
 def home(request):
@@ -20,22 +21,38 @@ def exit(request):
     logout(request)
     return redirect('home')
 
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from .forms import CustomUserCreationForm
+
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from .forms import CustomUserCreationForm
+
 def register(request):
-    data={
-        'form': CustomUserCreationForm()
-    
-    }
-    if request.method=='POST':
-        user_creation_form= CustomUserCreationForm(data=request.POST)
+    if request.method == 'POST':
+        form = CustomUserCreationForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            user = authenticate(
+                username=form.cleaned_data['username'], 
+                password=form.cleaned_data['password1']
+            )
+            if user:
+                login(request, user)
+                messages.success(request, "¡Registro exitoso! Bienvenido.")
+                return redirect('home')
+            else:
+                messages.error(request, "Hubo un problema al autenticar al usuario.")
+        else:
+            messages.error(request, "El registro falló. Por favor corrige los errores.")
+    else:
+        form = CustomUserCreationForm()
 
-        if user_creation_form.is_valid():
-            user_creation_form.save()
+    return render(request, 'registration/register.html', {'form': form})
 
-            user= authenticate(username=user_creation_form.cleaned_data['username'], password= user_creation_form.cleaned_data['password1'])
-            login(request, user)
-
-            return redirect('home')
-    return render(request, 'registration/register.html', data)
 
 def huella(request):
     if request.method=='POST':
