@@ -16,14 +16,15 @@ Including another URLconf
 """
 
 from django.urls import path
-from .views import home, mapa, register , huella, nosotros
+from .views import home, mapa, register, huella, nosotros
+from django.contrib.auth.views import LogoutView
+
 urlpatterns = [ 
-    path('', home, name= 'home'),
+    path('', home, name='home'),
     path('mapa/', mapa, name='mapa'),
     path('register/', register, name='register'),
-    path('logout/',exit, name='exit'),
-    path('huella/',huella, name= 'huella' ),
+    path('logout/', LogoutView.as_view(), name='logout'),  # Vista genérica para logout
+    path('huella/', huella, name='huella'),
     path('nosotros/', nosotros, name='nosotros'),
-
-
 ]
+
