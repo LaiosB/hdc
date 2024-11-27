@@ -16,7 +16,7 @@ Including another URLconf
 """
 
 from django.urls import path
-from .views import home, mapa, register, huella, nosotros
+from .views import home, mapa, register, huella, nosotros, perfil
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [ 
@@ -26,5 +26,6 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),  # Vista genérica para logout
     path('huella/', huella, name='huella'),
     path('nosotros/', nosotros, name='nosotros'),
+    path('perfil/', perfil, name='perfil'),
 ]
 

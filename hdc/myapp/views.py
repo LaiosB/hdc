@@ -9,6 +9,8 @@ from.forms import FormCalculadora
 from. models import Huella
 from django.contrib import messages
 import folium
+
+
 # Create your views here.
 def home(request):
     return render (request, 'myapp/home.html')
@@ -21,15 +23,6 @@ def exit(request):
     logout(request)
     return redirect('home')
 
-from django.contrib import messages
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from .forms import CustomUserCreationForm
-
-from django.contrib import messages
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from .forms import CustomUserCreationForm
 
 def register(request):
     if request.method == 'POST':
@@ -67,10 +60,14 @@ def huella(request):
 
     return render (request,'myapp/huella.html',{'form': form })
 
-from django.shortcuts import render
 
 def nosotros(request):
     return render(request, 'myapp/nosotros.html')
+
+def perfil(request):
+    return render(request, 'myapp/perfil.html')
+
+
 
 #Mapa
 def mapa(request):
