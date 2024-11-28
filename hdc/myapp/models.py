@@ -1,15 +1,19 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-# Create your models here.
 class Project(models.Model): 
     name = models.CharField(max_length=200)
 
-class   Task(models.Model):
+class Task(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
-    project = models.ForeignKey(Project, on_delete= models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+
+
+from django.contrib.auth.models import User
 
 class Huella(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE,)
     DIETAS = [
         ('dieta_omnivora', 'Omnivora'),
         ('dieta_vegetariana', 'Vegetariana'),
@@ -21,6 +25,8 @@ class Huella(models.Model):
         ('transporte_bicicleta', 'Bicicleta'),
         ('transporte_pie', 'A pie'),
     ]
+
+
 
     transporte = models.CharField(max_length=30, choices=TRANSPORTE, default='transporte_auto')
     distancia = models.IntegerField()
@@ -49,14 +55,10 @@ class Huella(models.Model):
             co2 += 1.0
 
         return co2
-    
-    
-    
-    class Location(models.Model):
-        name = models.CharField(max_length=250, verbose_name="Nombre de edificio")
-        address = models.CharField(max_length=250, verbose_name="Dirección")
-        project = models.ForeignKey(Project, on_delete= models.CASCADE)
 
 
 
-
+class Location(models.Model):
+    name = models.CharField(max_length=250, verbose_name="Nombre de edificio")
+    address = models.CharField(max_length=250, verbose_name="Dirección")
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
