@@ -80,34 +80,114 @@ def mapa(request):
     edificios_geojson = {
         "type": "FeatureCollection",
         "features": [
-            # Definir los edificios aquí
             {
                 "type": "Feature",
-                "properties": {"name": "Edificio A", "info": "Información sobre el edificio A"},
+                "properties": {"name": "El edificio A posee aproximadamente x personas", "info": "El edificio A emite x cantidad de carbono"},
                 "geometry": {
                     "type": "Polygon",
                     "coordinates": [[
-                        [-70.61834824390719, -33.490502590681416],
-                        [-70.61834672131202, -33.49054454440232],
-                        [-70.61857546068886, -33.490584336585506],
-                        [-70.61840016778497, -33.491342411798],
-                        [-70.61848732403907, -33.49135680393925],
-                        [-70.61865903830318, -33.490616582621904],
-                        [-70.6187831156597, -33.49063393665665],
-                        [-70.6185752589204, -33.49150124056633],
-                        [-70.61816130514129, -33.4914377933369],
-                        [-70.61813918692567, -33.49152281905175],
-                        [-70.61797572031787, -33.49149761689295],
-                        [-70.6182050014158, -33.49047449981421],
-                        [-70.61834824390719, -33.490502590681416]
+                        [-70.61834824390719,-33.490502590681416],
+                        [-70.61834672131202,-33.49054454440232],
+                        [-70.61857546068886,-33.490584336585506],
+                        [-70.61840016778497,-33.491342411798],
+                        [-70.61848732403907,-33.49135680393925],
+                        [-70.61865903830318,-33.490616582621904],
+                        [-70.6187831156597,-33.49063393665665],
+                        [-70.6185752589204,-33.49150124056633],
+                        [-70.61816130514129,-33.4914377933369],
+                        [-70.61813918692567,-33.49152281905175],
+                        [-70.61797572031787,-33.49149761689295],
+                        [-70.6182050014158,-33.49047449981421],
+                        [-70.61834824390719,-33.490502590681416]
                     ]]
                 }
             },
-            # Agregar más edificios si es necesario
+            {
+                "type": "Feature",
+                "properties": {"name": "El edificio B posee aproximadamente x personas", "info": "El edificio B emite x cantidad de carbono"},
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [[
+                        [-70.62011859544695,-33.49040378567553],
+                        [-70.61921392694627,-33.49024656555172],
+                        [-70.61930408045005,-33.489779321937405],
+                        [-70.61908832079655,-33.48975779910072],
+                        [-70.61908324370414,-33.48975294898268],
+                        [-70.61911271548523,-33.4896289645344],
+                        [-70.62025070645923,-33.48980291040082],
+                        [-70.62011859544695,-33.49040378567553]
+                    ]]
+                }
+            },
+            {
+                "type": "Feature",
+                "properties": {"name": "El edificio C posee aproximadamente x personas", "info": "El edificio C emite x cantidad de carbono"},
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [[
+                        [-70.61903159723903,-33.4907391677371],
+                        [-70.61893144000994,-33.49119055222705],
+                        [-70.61870252788715,-33.49114612017024],
+                        [-70.61882028012369,-33.49069968511385],
+                        [-70.61903159723903,-33.4907391677371]
+                    ]]
+                }
+                
+            },
+            {
+                "type": "Feature",
+                "properties": {"name": "El edificio E posee aproximadamente x personas", "info": "El edificio E emite x cantidad de carbono"},
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [[
+                        [-70.62043352828836,-33.49049909348461],
+                        [-70.62025170763883,-33.49050729812055],
+                        [-70.6202419812403,-33.490416440207376],
+                        [-70.62034211730149,-33.489986162698415],
+                        [-70.62021595782652,-33.48996153796307],
+                        [-70.62022017592463,-33.48994426866354],
+                        [-70.6205070065842,-33.48999095972446],
+                        [-70.62042164092105,-33.49039739708091],
+                        [-70.62043352828836,-33.49049909348461]
+                    ]]
+                }
+            },
+            {
+                "type": "Feature",
+                "properties": {"name": "El edificio F posee aproximadamente x personas", "info": "El edificio F emite x cantidad de carbono)?"},
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [[
+                        [-70.61986860475409,-33.49042323769022],
+                        [-70.61979967421722,-33.49074803791788],
+                        [-70.61840182110004,-33.490535240541064],
+                        [-70.6184094365276,-33.49049331202385],
+                        [-70.61825382583775,-33.490467979707304],
+                        [-70.61832306423271,-33.49016678833369],
+                        [-70.61986860475409,-33.49042323769022]
+                    ]]
+                }
+            },
+            {
+                "type": "Feature",
+                "properties": {"name": "El edificio K posee aproximadamente x personas", "info": "El edificio K emite x cantidad de carbono)?"},
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [[
+                        [-70.61972825543411,-33.491422841877],
+                        [-70.6196636639087,-33.491689783829884],
+                        [-70.61893394826683,-33.49171893630827],
+                        [-70.61860237843827,-33.49169499536698],
+                        [-70.61838765664487,-33.4916655460946],
+                        [-70.61840511941526,-33.49152022629975],
+                        [-70.61861673210997,-33.49154895548587],
+                        [-70.61870557301017,-33.49126387399327],
+                        [-70.61972825543411,-33.491422841877]
+                    ]]
+                }
+            }
         ]
     }
-
-    # Funciones de estilo para los edificios en el mapa
     def style_function(feature):
         return {
             "fillColor": "yellow",
@@ -123,8 +203,6 @@ def mapa(request):
             "fillOpacity": 0.6,
             "weight": 2
         }
-    
-    # Agregar el GeoJSON al mapa
     folium.GeoJson(
         data=edificios_geojson,
         style_function=style_function,
@@ -140,8 +218,9 @@ def mapa(request):
             localize=True
         )
     ).add_to(initialMap)
-    
-    # Pasar el mapa al contexto para renderizarlo
+        
+
     context = {"mapa": initialMap._repr_html_()}
     
-    return render(request, 'mapa/maph.html', context)
+    return render (request, 'mapa/maph.html', context)
+    
