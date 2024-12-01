@@ -33,7 +33,7 @@ class Huella(models.Model):
     energia = models.IntegerField()
     dieta = models.CharField(max_length=30, choices=DIETAS, default='dieta_omnivora')
 
-    def calcular_huella(self):
+'''    def calcular_huella(self):
         co2 = 0
         # Transporte
         if self.transporte == 'transporte_auto':
@@ -54,7 +54,7 @@ class Huella(models.Model):
         elif self.dieta == 'dieta_vegana':
             co2 += 1.0
 
-        return co2
+        return co2'''
 
 
 
