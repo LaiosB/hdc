@@ -1,80 +1,34 @@
 {% extends 'myapp/base.html' %}
-{% load static %}
 
 {% block content %}
-    <style>
-        .perfil_i{
-            border-radius: 50%;
-            width: 250px;
-            margin-left: 10px;
-            margin-bottom: 10px;
-            border-style: solid;
-            border: 2px solid black;
-        }
-        .datos{
-            border-radius: 5px;
-            border-style: solid;
-            border-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 5px 10px;
-            background-color: white;
-            width: 600px;
-        }
-        .lista{
-            border-radius: 5px;
-            border-style: solid;
-            border-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 5px 10px;
-            list-style-position: inside;
-            background-color: white;
-            width: 600px;
-
-        }
-        .fondo_perfil{
-            background-image: url('{% static "images/a.avif"%}');
-            background-size: cover;
-        }
-        .titulo{
-            border-radius: 5px;
-            border-style: solid;
-            display: inline-block;
-            margin-top: 10px;
-            background-color: white;
-
-        }
-    </style>
-    <body class="fondo_perfil">
-        <h1 class="titulo">Perfil de Usuario</h1><br>
-        <img src="{% static "images/mclovin.jpg"%}" class="perfil_i">
+    <h1>Perfil de Usuario</h1><br>
+    
+    <h3>Datos del Perfil:</h3>
+    <ul>
+        <li>Nombre de usuario: {{ user.username }}</li>
+        <li>Nombre completo: {{ user.get_full_name }}</li>
+        <li>Email: {{ user.email }}</li>
+        <li>Fecha de registro: {{ user.date_joined|date:"d M Y" }}</li>
         
-        
-        <h3 class="datos">Datos del Perfil</h3>
-
-        <ul class="lista">
-            <li>Nombre de usuario: {{ user.username }}</li>
-            <li>Nombre completo: {{ user.get_full_name }}</li>
-            <li>Email: {{ user.email }}</li>
-            <li>Fecha de registro: {{ user.date_joined|date:"d M Y" }}</li>
-            
+    </ul>
+    
+    <h3>Huellas de carbono asociadas a tu cuenta:</h3>
+    
+    {% if huellas %}
+        <ul>
+            {% for huella in huellas %}
+                <li>
+                    Transporte: {{ huella.transporte }}<br>
+                    Distancia: {{ huella.distancia }} km<br>
+                    Energía: {{ huella.energia }} kWh<br>
+                    Dieta: {{ huella.dieta }}<br>
+                    Huella de CO₂: {{ huella.calcular_huella|floatformat:2 }} kg CO₂
+                </li>
+            {% endfor %}
         </ul>
-        
-        <h3 class="datos">Huellas de carbono asociadas a tu cuenta</h3>
-        
-        {% if huellas %}
-            <ul class="lista">
-                {% for huella in huellas %}
-                    <li>
-                        Transporte: {{ huella.transporte }}<br>
-                        Distancia: {{ huella.distancia }} km<br>
-                        Energía: {{ huella.energia }} kWh<br>
-                        Dieta: {{ huella.dieta }}<br>
-                        Huella de CO₂: {{ huella.calcular_huella|floatformat:2 }} kg CO₂
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p class="lista">No tienes huellas de carbono registradas.</p>
-        {% endif %}
-    </body>
+    {% else %}
+        <p>No tienes huellas de carbono registradas.</p>
+    {% endif %}
 {% endblock %}
 
 

@@ -1,0 +1,9 @@
+.navbar-custom {
+    background-color: #6df48d; /* Verde */
+}
+.nav-link {
+    color: black !important; /* Asegurar que los enlaces sean visibles */
+}
+.accordion-collapse {
+    transition: height 0.3s ease;
+}
