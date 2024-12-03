@@ -25,13 +25,13 @@ class Huella(models.Model):
         ('transporte_bicicleta', 'Bicicleta'),
         ('transporte_pie', 'A pie'),
     ]
-
-
-
+    dieta = models.CharField(max_length=30, choices=DIETAS, default='dieta_omnivora')
     transporte = models.CharField(max_length=30, choices=TRANSPORTE, default='transporte_auto')
     distancia = models.IntegerField()
     energia = models.IntegerField()
-    dieta = models.CharField(max_length=30, choices=DIETAS, default='dieta_omnivora')
+
+    def __str__(self):
+        return f"Huella de {self.user.username}"   
 
 '''    def calcular_huella(self):
         co2 = 0
@@ -43,7 +43,6 @@ class Huella(models.Model):
         elif self.transporte in ['transporte_bicicleta', 'transporte_pie']:
             co2 += 0  # Sin emisiones de CO₂
 
-        # Energía
         co2 += self.energia * 0.5
 
         # Dieta
@@ -62,3 +61,4 @@ class Location(models.Model):
     name = models.CharField(max_length=250, verbose_name="Nombre de edificio")
     address = models.CharField(max_length=250, verbose_name="Dirección")
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
+ 
