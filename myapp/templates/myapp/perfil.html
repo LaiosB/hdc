@@ -1,0 +1,35 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+    <h1>Perfil de Usuario</h1><br>
+    
+    <h3>Datos del Perfil:</h3>
+    <ul>
+        <li>Nombre de usuario: {{ user.username }}</li>
+        <li>Nombre completo: {{ user.get_full_name }}</li>
+        <li>Email: {{ user.email }}</li>
+        <li>Fecha de registro: {{ user.date_joined|date:"d M Y" }}</li>
+        
+    </ul>
+    
+    <h3>Huellas de carbono asociadas a tu cuenta:</h3>
+    
+    {% if huellas %}
+        <ul>
+            {% for huella in huellas %}
+                <li>
+                    Transporte: {{ huella.transporte }}<br>
+                    Distancia: {{ huella.distancia }} km<br>
+                    Energía: {{ huella.energia }} kWh<br>
+                    Dieta: {{ huella.dieta }}<br>
+                    Huella de CO₂: {{ huella.calcular_huella|floatformat:2 }} kg CO₂
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tienes huellas de carbono registradas.</p>
+    {% endif %}
+{% endblock %}
+
+
+

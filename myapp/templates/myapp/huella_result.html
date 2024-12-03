@@ -1,0 +1,19 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+    <style>
+        .resultado {
+            color: green;
+            border-radius: 5px;
+            padding: 10px;
+            border-style: solid;
+        }
+    </style>
+    <h1>Resultado de Huella de Carbono</h1>
+    <p><strong>Transporte:</strong> {{ huella.get_transporte_display }}</p>
+    <p><strong>Distancia:</strong> {{ huella.distancia }} km</p>
+    <p><strong>Consumo de Energía:</strong> {{ huella.energia }} kWh</p>
+    <p><strong>Dieta:</strong> {{ huella.get_dieta_display }}</p>
+    <h2 class="resultado"><strong>Emisiones de CO₂:</strong> {{ co2_emissions }} kg</h2>
+    <a href="{% url 'huella' %}" class="btn btn-secondary">Calcular de nuevo</a>
+{% endblock %}

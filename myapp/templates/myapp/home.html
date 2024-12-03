@@ -1,0 +1,55 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block content %}
+    <style>
+        body {
+            background-image: url('{% static 'images/SJ.jpg' %}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .heading-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        .heading-container h3 {
+            font-weight: 700; /* Adjust the value as needed, 700 is bold */
+        }
+    </style>
+
+    <!-- Contenedor principal -->
+    <div class="container text-center mt-5">
+        <!-- Título -->
+        <div class="heading-container">
+            <h3 class="display-4 text-success mb-4">Calculadora de Huella de Carbono USM</h3>
+        </div>
+        
+        <!-- Verificación de usuario autenticado -->
+        {% if request.user.is_authenticated %}
+            <div class="card mx-auto my-4" style="max-width: 400px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+                <div class="card-body">
+                    <h4 class="card-title mb-3 text-success">Hola, <strong>{{ request.user.username | upper }}</strong></h4>
+                    <p class="card-text">Si gustas conocer tu emisión de carbono al año, presiona el botón:</p>
+                    <!-- Botón de calculadora -->
+                    <a href="{% url 'huella' %}" class="btn btn-success btn-lg btn-block">Calcula tu huella de carbono</a>
+                </div>
+            </div>
+        {% else %}
+            <div class="card mx-auto my-4" style="max-width: 425px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+                <div class="card-body">
+                    <h4 class="card-title mb-3 text-primary">¡Bienvenido, invitado!</h4>
+                    <p class="card-text">Para una mejor experiencia, por favor ingresa o regístrate.</p>
+                    <!-- Botón de ingresar -->
+                    <a href="{% url 'login' %}" class="btn btn-primary btn-lg btn-block mt-2">Ingresar</a>
+                    <!-- Botón de registrarse -->
+                    <a href="{% url 'register' %}" class="btn btn-outline-success btn-lg btn-block mt-2">Registrarse</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
