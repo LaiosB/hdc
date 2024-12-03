@@ -2,6 +2,50 @@
 {% load static %}
 
 {% block content %}
+<style>
+    .option-button {
+        cursor: pointer;
+        padding: 10px;
+        margin: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        transition: background-color 0.3s;
+    }
+    .option-button:hover {
+        background-color: #f0f0f0;
+    }
+
+    .option-button:active {
+        background-color: green;
+    }
+    .option-button.selected {
+        background-color: green;
+        color: white;
+    }
+    .option-button_1 {
+        cursor: pointer;
+        padding: 10px;
+        margin: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        transition: background-color 0.3s;
+    }
+    .option-button_1:hover {
+        background-color: #f0f0f0;
+    }
+
+    .option-button_1:active {
+        background-color: green;
+    }
+    .option-button_1.selected {
+        background-color: green;
+        color: white;
+    }
+
+
+</style>
 <div class="container mt-5">
     <h1 class="text-center mb-4">Calculadora de Huella de Carbono</h1>
     <div id="progress-bar" class="progress mb-4">
@@ -9,22 +53,25 @@
     </div>
 
     <!-- Preguntas -->
-    <form id="formulario">
+    <form id="formulario" method="post" action="{% url "huella" %}">
+        {% csrf_token %}
         <!-- Pregunta 1 -->
         <div class="question-section active" id="question-1">
             <h3 class="text-center">¿Qué tipo de dieta tienes?</h3>
             <div class="option-button" data-next="2" data-value="omnivora">Omnívora</div>
             <div class="option-button" data-next="2" data-value="vegetariana">Vegetariana</div>
             <div class="option-button" data-next="2" data-value="vegana">Vegana</div>
+            <input type="hidden" name="dieta" id="dieta">
         </div>
 
         <!-- Pregunta 2 -->
         <div class="question-section" id="question-2">
             <h3 class="text-center">¿Qué tipo de transporte usas con mayor frecuencia?</h3>
-            <div class="option-button" data-next="3" data-value="auto">Auto</div>
-            <div class="option-button" data-next="3" data-value="publico">Transporte Público</div>
-            <div class="option-button" data-next="3" data-value="bicicleta">Bicicleta</div>
-            <div class="option-button" data-next="3" data-value="a_pie">A pie</div>
+            <div class="option-button_1" data-next="3" data-value="auto">Auto</div>
+            <div class="option-button_1" data-next="3" data-value="publico">Transporte Público</div>
+            <div class="option-button_1" data-next="3" data-value="bicicleta">Bicicleta</div>
+            <div class="option-button_1" data-next="3" data-value="a_pie">A pie</div>
+            <input type="hidden" name="transporte" id="transporte">
         </div>
 
         <!-- Pregunta 3 -->
@@ -44,7 +91,7 @@
         <!-- Resultado -->
         <div class="question-section" id="question-5">
             <h3 class="text-center">Resultado</h3>
-            <p>Tu huella de carbono estimada es: <strong id="resultado-co2"></strong> kg CO₂</p>
+            <p>Tu huella de carbono estimada es: <strong id="resultado-co2"></strong></p>
             <button type="submit" class="btn btn-success w-100">Recalcular</button>
         </div>
     </form>
@@ -54,9 +101,9 @@
     document.addEventListener('DOMContentLoaded', () => {
         const progress = document.getElementById('progress');
         const sections = document.querySelectorAll('.question-section');
-        const buttons = document.querySelectorAll('.option-button, .btn'); // Incluye todos los botones
+        const buttons = document.querySelectorAll('.option-button, .option-button_1, .btn'); // Incluye todos los botones
         let currentStep = 1;
-
+        let maxStep = 1;
         // Agregar eventos a todos los botones
         buttons.forEach(button => {
             button.addEventListener('click', () => {
@@ -74,7 +121,10 @@
             if (targetSection) {
                 targetSection.classList.add('active'); // Muestra la sección seleccionada
                 currentStep = section;
-                updateProgress(section);
+                if (currentStep > maxStep) {
+                    maxStep = currentStep;
+                }
+                updateProgress(maxStep);
             }
         }
 
@@ -100,6 +150,23 @@
             co2 += energia * 0.5;   // Cada kWh genera 0.5 kg de CO₂
             return co2.toFixed(2);  // Devuelve el valor con dos decimales
         }
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        const optionButtons = document.querySelectorAll('.option-button, .option-button_1');
+
+        optionButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Obtener el contenedor de la pregunta actual
+                const questionSection = this.closest('.question-section');
+                // Eliminar la clase 'selected' de todos los botones en la misma pregunta
+                questionSection.querySelectorAll('.option-button, .option-button_1').forEach(btn => btn.classList.remove('selected'));
+                // Agregar la clase 'selected' al botón clicado
+                this.classList.add('selected');
+                // Actualizar el valor del input hidden
+                const input = questionSection.querySelector('input[type="hidden"]');
+                input.value = this.getAttribute('data-value');
+            });
+        });
     });
 </script>
 {% endblock %}
