@@ -1,6 +1,51 @@
 {% extends 'myapp/base.html' %}
 {% load static %}
+
 {% block content %}
+<style>
+    .option-button {
+        cursor: pointer;
+        padding: 10px;
+        margin: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        transition: background-color 0.3s;
+    }
+    .option-button:hover {
+        background-color: #f0f0f0;
+    }
+
+    .option-button:active {
+        background-color: green;
+    }
+    .option-button.selected {
+        background-color: green;
+        color: white;
+    }
+    .option-button_1 {
+        cursor: pointer;
+        padding: 10px;
+        margin: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        transition: background-color 0.3s;
+    }
+    .option-button_1:hover {
+        background-color: #f0f0f0;
+    }
+
+    .option-button_1:active {
+        background-color: green;
+    }
+    .option-button_1.selected {
+        background-color: green;
+        color: white;
+    }
+
+
+</style>
 <div class="container mt-5">
     <h1 class="text-center mb-4">Calculadora de Huella de Carbono</h1>
     <div id="progress-bar" class="progress mb-4">
@@ -8,67 +53,45 @@
     </div>
 
     <!-- Preguntas -->
-    <form id="formulario">
+    <form id="formulario" method="post" action="{% url "huella" %}">
+        {% csrf_token %}
         <!-- Pregunta 1 -->
         <div class="question-section active" id="question-1">
             <h3 class="text-center">¿Qué tipo de dieta tienes?</h3>
-            <div class="option-list">
-                <label class="option">
-                    <input type="radio" name="dieta" value="omnivora" required>
-                    <span>Omnívora</span>
-                </label>
-                <label class="option">
-                    <input type="radio" name="dieta" value="vegetariana">
-                    <span>Vegetariana</span>
-                </label>
-                <label class="option">
-                    <input type="radio" name="dieta" value="vegana">
-                    <span>Vegana</span>
-                </label>
-            </div>
+            <div class="option-button" data-next="2" data-value="omnivora">Omnívora</div>
+            <div class="option-button" data-next="2" data-value="vegetariana">Vegetariana</div>
+            <div class="option-button" data-next="2" data-value="vegana">Vegana</div>
+            <input type="hidden" name="dieta" id="dieta">
         </div>
 
         <!-- Pregunta 2 -->
         <div class="question-section" id="question-2">
             <h3 class="text-center">¿Qué tipo de transporte usas con mayor frecuencia?</h3>
-            <div class="option-list">
-                <label class="option">
-                    <input type="radio" name="transporte" value="auto" required>
-                    <span>Auto</span>
-                </label>
-                <label class="option">
-                    <input type="radio" name="transporte" value="publico">
-                    <span>Transporte Público</span>
-                </label>
-                <label class="option">
-                    <input type="radio" name="transporte" value="bicicleta">
-                    <span>Bicicleta</span>
-                </label>
-                <label class="option">
-                    <input type="radio" name="transporte" value="a_pie">
-                    <span>A pie</span>
-                </label>
-            </div>
+            <div class="option-button_1" data-next="3" data-value="auto">Auto</div>
+            <div class="option-button_1" data-next="3" data-value="publico">Transporte Público</div>
+            <div class="option-button_1" data-next="3" data-value="bicicleta">Bicicleta</div>
+            <div class="option-button_1" data-next="3" data-value="a_pie">A pie</div>
+            <input type="hidden" name="transporte" id="transporte">
         </div>
 
         <!-- Pregunta 3 -->
         <div class="question-section" id="question-3">
             <h3 class="text-center">¿Cuánta distancia recorres mensualmente (km)?</h3>
-            <input type="number" class="form-control mb-3" id="distancia" placeholder="Ingrese la distancia en km" required>
+            <input type="number" class="form-control mb-3" id="distancia" placeholder="Ingrese la distancia en km">
             <button type="button" class="btn btn-success w-100" data-next="4">Siguiente</button>
         </div>
 
         <!-- Pregunta 4 -->
         <div class="question-section" id="question-4">
             <h3 class="text-center">¿Cuánta energía consumes mensualmente (kWh)?</h3>
-            <input type="number" class="form-control mb-3" id="energia" placeholder="Ingrese el consumo en kWh" required>
+            <input type="number" class="form-control mb-3" id="energia" placeholder="Ingrese el consumo en kWh">
             <button type="button" class="btn btn-success w-100" data-next="5">Siguiente</button>
         </div>
 
         <!-- Resultado -->
         <div class="question-section" id="question-5">
             <h3 class="text-center">Resultado</h3>
-            <p>Tu huella de carbono estimada es: <strong id="resultado-co2"></strong> kg CO₂</p>
+            <p>Tu huella de carbono estimada es: <strong id="resultado-co2"></strong></p>
             <button type="submit" class="btn btn-success w-100">Recalcular</button>
         </div>
     </form>
@@ -78,48 +101,34 @@
     document.addEventListener('DOMContentLoaded', () => {
         const progress = document.getElementById('progress');
         const sections = document.querySelectorAll('.question-section');
+        const buttons = document.querySelectorAll('.option-button, .option-button_1, .btn'); // Incluye todos los botones
         let currentStep = 1;
-        let respuestas = {}; // Almacena respuestas seleccionadas
-
-        // Avanzar automáticamente para preguntas de radio buttons
-        document.querySelectorAll('input[type="radio"]').forEach(input => {
-            input.addEventListener('change', () => {
-                const currentSection = document.getElementById(`question-${currentStep}`);
-                const nextStep = currentStep + 1;
-
-                // Guardar la respuesta seleccionada
-                respuestas[currentSection.id] = input.value;
-
-                // Avanzar automáticamente solo si no es la última pregunta con botón
-                if (currentStep < 3) {
-                    goToSection(nextStep);
+        let maxStep = 1;
+        // Agregar eventos a todos los botones
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                const next = button.getAttribute('data-next');
+                if (next) {
+                    goToSection(next);
                 }
             });
         });
 
-        // Manejar botones "Siguiente" en las últimas dos preguntas
-        document.querySelectorAll('button[data-next]').forEach(button => {
-            button.addEventListener('click', () => {
-                const nextStep = parseInt(button.getAttribute('data-next'));
-                goToSection(nextStep);
-            });
-        });
-
-        function goToSection(step) {
-            sections.forEach(sec => sec.classList.remove('active'));
-            const targetSection = document.getElementById(`question-${step}`);
+        // Función para cambiar de sección
+        function goToSection(section) {
+            sections.forEach(sec => sec.classList.remove('active')); // Oculta todas las secciones
+            const targetSection = document.getElementById(`question-${section}`);
             if (targetSection) {
-                targetSection.classList.add('active');
-                updateProgress(step);
-                currentStep = step;
-            }
-
-            // Si es la última sección, calcular la huella
-            if (step === 5) {
-                calcular_huella();
+                targetSection.classList.add('active'); // Muestra la sección seleccionada
+                currentStep = section;
+                if (currentStep > maxStep) {
+                    maxStep = currentStep;
+                }
+                updateProgress(maxStep);
             }
         }
 
+        // Función para actualizar la barra de progreso
         function updateProgress(step) {
             const totalSteps = sections.length;
             const progressPercentage = ((step - 1) / (totalSteps - 1)) * 100;
@@ -137,22 +146,11 @@
             });
         }
 
+        function calcularHuella(distancia, energia) {
             let co2 = 0;
-
-            // Transporte
-            if (transporte === 'auto') co2 += distancia * 0.21;
-            else if (transporte === 'publico') co2 += distancia * 0.1;
-            else if (transporte === 'bicicleta' || transporte === 'a_pie') co2 += 0;
-
-            // Energía
-            co2 += energia * 0.5;
-
-            // Dieta
-            if (dieta === 'omnivora') co2 += 2.5;
-            else if (dieta === 'vegetariana') co2 += 1.7;
-            else if (dieta === 'vegana') co2 += 1.0;
-
-            document.getElementById('resultado-co2').innerText = `${co2.toFixed(2)}`;{
+            co2 += distancia * 0.21; // Cada km genera 0.21 kg de CO₂
+            co2 += energia * 0.5;   // Cada kWh genera 0.5 kg de CO₂
+            return co2.toFixed(2);  // Devuelve el valor con dos decimales
         }
     });
     
@@ -175,67 +173,4 @@
         });
     });
 </script>
-<style>
-    .option-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px; /* Espaciado entre opciones */
-}
-
-.option {
-    display: flex;
-    align-items: center;
-    font-size: 1.2em;
-    cursor: pointer;
-}
-
-.option input {
-    margin-right: 10px;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-}
-
-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin-top: 20px;
-    background: #4caf50;
-    color: rgb(1, 92, 45);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 2em;
-}
-
-button:hover {
-    background: #45a049;
-}
-
-.question-section {
-    display: none;
-}
-
-.question-section.active {
-    display: block;
-}
-#resultado-mensaje {
-    font-size: 6.5em; /* Tamaño general del mensaje */
-    color: #103c02; /* Color del texto */
-    margin-top: 30px; /* Espaciado superior */
-    text-align: center; /* Centrar el texto */
-}
-
-#resultado-co2 {
-    font-size: 2.5em; /* Agranda el número del resultado */
-    color: #024605; /* Color destacado para el resultado */
-    font-weight: bold; /* Resaltar el resultado */
-}
-
-</style>
 {% endblock %}
-
-
-
-
