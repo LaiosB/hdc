@@ -57,11 +57,11 @@ def huella(request):
             huella_obj.save()  # Guardamos en la base de datos
             co2_emisiones = huella_obj.co2_emisiones
             
-            return render("perfil.html", {'co2_emisiones': co2_emisiones})
+            return redirect('perfil')
     else:
         form = FormCalculadora()
 
-    return render(request, 'myapp/huella.html', {'form': form})
+    return render(request,'myapp/huella.html', {'form': form})
 
 # Vista para la página "Nosotros" o Preguntas Frecuentes
 def nosotros(request):

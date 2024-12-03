@@ -3,7 +3,7 @@
 
 {% block content %}
 <style>
-    .option-button {
+    .option-button, .option-button_1 {
         cursor: pointer;
         padding: 10px;
         margin: 5px;
@@ -12,39 +12,16 @@
         background-color: #f9f9f9;
         transition: background-color 0.3s;
     }
-    .option-button:hover {
+    .option-button:hover, .option-button_1:hover {
         background-color: #f0f0f0;
     }
-
-    .option-button:active {
+    .option-button:active, .option-button_1:active {
         background-color: green;
     }
-    .option-button.selected {
+    .option-button.selected, .option-button_1.selected {
         background-color: green;
         color: white;
     }
-    .option-button_1 {
-        cursor: pointer;
-        padding: 10px;
-        margin: 5px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: #f9f9f9;
-        transition: background-color 0.3s;
-    }
-    .option-button_1:hover {
-        background-color: #f0f0f0;
-    }
-
-    .option-button_1:active {
-        background-color: green;
-    }
-    .option-button_1.selected {
-        background-color: green;
-        color: white;
-    }
-
-
 </style>
 <div class="container mt-5">
     <h1 class="text-center mb-4">Calculadora de Huella de Carbono</h1>
@@ -53,38 +30,38 @@
     </div>
 
     <!-- Preguntas -->
-    <form id="formulario" method="post" action="{% url "huella" %}">
+    <form id="formulario" method="post" action="{% url 'huella' %}">
         {% csrf_token %}
         <!-- Pregunta 1 -->
         <div class="question-section active" id="question-1">
             <h3 class="text-center">¿Qué tipo de dieta tienes?</h3>
-            <div class="option-button" data-next="2" data-value="omnivora">Omnívora</div>
-            <div class="option-button" data-next="2" data-value="vegetariana">Vegetariana</div>
-            <div class="option-button" data-next="2" data-value="vegana">Vegana</div>
+            <div class="option-button" data-next="2" data-value="dieta_omnivora">Omnívora</div>
+            <div class="option-button" data-next="2" data-value="dieta_vegetariana">Vegetariana</div>
+            <div class="option-button" data-next="2" data-value="dieta_vegana">Vegana</div>
             <input type="hidden" name="dieta" id="dieta">
         </div>
 
         <!-- Pregunta 2 -->
         <div class="question-section" id="question-2">
             <h3 class="text-center">¿Qué tipo de transporte usas con mayor frecuencia?</h3>
-            <div class="option-button_1" data-next="3" data-value="auto">Auto</div>
-            <div class="option-button_1" data-next="3" data-value="publico">Transporte Público</div>
-            <div class="option-button_1" data-next="3" data-value="bicicleta">Bicicleta</div>
-            <div class="option-button_1" data-next="3" data-value="a_pie">A pie</div>
+            <div class="option-button_1" data-next="3" data-value="transporte_auto">Auto</div>
+            <div class="option-button_1" data-next="3" data-value="transporte_publico">Transporte Público</div>
+            <div class="option-button_1" data-next="3" data-value="transporte_bicicleta">Bicicleta</div>
+            <div class="option-button_1" data-next="3" data-value="transporte_pie">A pie</div>
             <input type="hidden" name="transporte" id="transporte">
         </div>
 
         <!-- Pregunta 3 -->
         <div class="question-section" id="question-3">
             <h3 class="text-center">¿Cuánta distancia recorres mensualmente (km)?</h3>
-            <input type="number" class="form-control mb-3" id="distancia" placeholder="Ingrese la distancia en km">
+            <input type="number" class="form-control mb-3" name="distancia" id="distancia" placeholder="Ingrese la distancia en km">
             <button type="button" class="btn btn-success w-100" data-next="4">Siguiente</button>
         </div>
 
         <!-- Pregunta 4 -->
         <div class="question-section" id="question-4">
             <h3 class="text-center">¿Cuánta energía consumes mensualmente (kWh)?</h3>
-            <input type="number" class="form-control mb-3" id="energia" placeholder="Ingrese el consumo en kWh">
+            <input type="number" class="form-control mb-3" name="energia" id="energia" placeholder="Ingrese el consumo en kWh">
             <button type="button" class="btn btn-success w-100" data-next="5">Siguiente</button>
         </div>
 
@@ -103,7 +80,8 @@
         const sections = document.querySelectorAll('.question-section');
         const buttons = document.querySelectorAll('.option-button, .option-button_1, .btn'); // Incluye todos los botones
         let currentStep = 1;
-        let maxStep = 1;
+        let maxStep = 1; // Variable para mantener el progreso máximo alcanzado
+
         // Agregar eventos a todos los botones
         buttons.forEach(button => {
             button.addEventListener('click', () => {
@@ -122,9 +100,9 @@
                 targetSection.classList.add('active'); // Muestra la sección seleccionada
                 currentStep = section;
                 if (currentStep > maxStep) {
-                    maxStep = currentStep;
+                    maxStep = currentStep; // Actualiza el progreso máximo alcanzado
                 }
-                updateProgress(maxStep);
+                updateProgress(maxStep); // Actualiza la barra de progreso con el progreso máximo alcanzado
             }
         }
 
@@ -171,6 +149,14 @@
                 input.value = this.getAttribute('data-value');
             });
         });
+    });
+    document.getElementById('formulario').addEventListener('submit', function (event) {
+        const distanciaInput = document.getElementById('distancia');
+        const energiaInput = document.getElementById('energia');
+        if (!distanciaInput.value || !energiaInput.value) {
+            alert("Por favor, completa todos los campos.");
+            event.preventDefault();
+        }
     });
 </script>
 {% endblock %}

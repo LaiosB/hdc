@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 class Project(models.Model): 
     name = models.CharField(max_length=200)
@@ -25,15 +26,12 @@ class Huella(models.Model):
         ('transporte_bicicleta', 'Bicicleta'),
         ('transporte_pie', 'A pie'),
     ]
-    dieta = models.CharField(max_length=50)
-    transporte = models.CharField(max_length=50)
+    dieta = models.CharField(max_length=50, choices = DIETAS)
+    transporte = models.CharField(max_length=50, choices= TRANSPORTE)
     distancia = models.FloatField()
     energia = models.FloatField()
-    co2_emisiones = models.FloatField()
-    fecha = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Huella de carbono - {self.user.username}"   
+    co2_emisiones = models.FloatField(default=0.0)
+    fecha = models.DateTimeField(default=timezone.now)
 
     def calcular_huella(self):
         co2 = 0

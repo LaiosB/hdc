@@ -3,79 +3,77 @@
 
 {% block content %}
     <style>
-        .perfil_i{
+        .perfil_i {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 150px;
             border-radius: 50%;
-            width: 250px;
-            margin-left: 10px;
+        }
+        .datos {
+            text-align: center;
+            color: #343a40;
+        }
+        .lista {
+            list-style-type: none;
+            padding: 0;
+        }
+        .lista li {
             margin-bottom: 10px;
-            border-style: solid;
-            border: 2px solid black;
         }
-        .datos{
-            border-radius: 5px;
-            border-style: solid;
-            border-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 5px 10px;
-            background-color: white;
-            width: 600px;
+        .card {
+            margin-bottom: 20px;
         }
-        .lista{
-            border-radius: 5px;
-            border-style: solid;
-            border-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 5px 10px;
-            list-style-position: inside;
-            background-color: white;
-            width: 600px;
-
+        .fondo_perfil {
+            background-color: #f8f9fa;
+            padding: 20px;
+            margin-top: 20px; /* Añadir margen superior para evitar conflictos con la barra de navegación */
         }
-        .fondo_perfil{
-            background-image: url('{% static "images/a.avif"%}');
-            background-size: cover;
-        }
-        .titulo{
-            border-radius: 5px;
-            border-style: solid;
-            display: inline-block;
-            margin-top: 10px;
-            background-color: white;
-
+        .titulo {
+            text-align: center;
+            color: #343a40;
         }
     </style>
-    <body class="fondo_perfil">
+    <div class="container fondo_perfil">
         <h1 class="titulo">Perfil de Usuario</h1><br>
-        <img src="{% static "images/mclovin.jpg"%}" class="perfil_i">
+        <img src="{% static 'images/mclovin.jpg' %}" class="perfil_i">
         
-        
-        <h3 class="datos">Datos del Perfil</h3>
-
-        <ul class="lista">
-            <li>Nombre de usuario: {{ user.username }}</li>
-            <li>Nombre completo: {{ user.get_full_name }}</li>
-            <li>Email: {{ user.email }}</li>
-            <li>Fecha de registro: {{ user.date_joined|date:"d M Y" }}</li>
-            
-        </ul>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="datos">Datos del Perfil</h3>
+                <ul class="lista">
+                    <li>Nombre de usuario: {{ user.username }}</li>
+                    <li>Nombre completo: {{ user.get_full_name }}</li>
+                    <li>Email: {{ user.email }}</li>
+                    <li>Fecha de registro: {{ user.date_joined|date:"d M Y" }}</li>
+                </ul>
+            </div>
+        </div>
         
         <h3 class="datos">Huellas de carbono asociadas a tu cuenta</h3>
         
         {% if huellas %}
-            <ul class="lista">
+            <div class="row">
                 {% for huella in huellas %}
-                    <li>
-                        Transporte: {{ huella.transporte }}<br>
-                        Distancia: {{ huella.distancia }} km<br>
-                        Energía: {{ huella.energia }} kWh<br>
-                        Dieta: {{ huella.dieta }}<br>
-                        Huella de CO₂: {{ huella.calcular_huella|floatformat:2 }} kg CO₂
-                    </li>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Huella de Carbono</h5>
+                                <p class="card-text">
+                                    Fecha: {{ huella.fecha|date:"d M Y" }}<br>
+                                    Transporte: {{ huella.transporte }}<br>
+                                    Distancia: {{ huella.distancia }} km<br>
+                                    Energía: {{ huella.energia }} kWh<br>
+                                    Dieta: {{ huella.dieta }}<br>
+                                    Huella de CO₂: {{ huella.co2_emisiones|floatformat:2 }} kg CO₂
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 {% endfor %}
-            </ul>
+            </div>
         {% else %}
             <p class="lista">No tienes huellas de carbono registradas.</p>
         {% endif %}
-    </body>
+    </div>
 {% endblock %}
-
-
-
