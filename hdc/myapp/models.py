@@ -13,7 +13,7 @@ class Task(models.Model):
 from django.contrib.auth.models import User
 
 class Huella(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE,)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     DIETAS = [
         ('dieta_omnivora', 'Omnivora'),
         ('dieta_vegetariana', 'Vegetariana'),
@@ -25,13 +25,15 @@ class Huella(models.Model):
         ('transporte_bicicleta', 'Bicicleta'),
         ('transporte_pie', 'A pie'),
     ]
-    dieta = models.CharField(max_length=30, choices=DIETAS, default='dieta_omnivora')
-    transporte = models.CharField(max_length=30, choices=TRANSPORTE, default='transporte_auto')
-    distancia = models.IntegerField()
-    energia = models.IntegerField()
+    dieta = models.CharField(max_length=50)
+    transporte = models.CharField(max_length=50)
+    distancia = models.FloatField()
+    energia = models.FloatField()
+    co2_emisiones = models.FloatField()
+    fecha = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Huella de {self.user.username}"   
+        return f"Huella de carbono - {self.user.username}"   
 
     def calcular_huella(self):
         co2 = 0

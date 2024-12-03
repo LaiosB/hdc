@@ -53,10 +53,11 @@ def huella(request):
         if form.is_valid():
             huella_obj = form.save(commit=False)
             huella_obj.user = request.user  # Asociamos la huella con el usuario actual
+            huella_obj.co2_emisiones= huella_obj.calcular_huella()  # Calculamos las emisiones
             huella_obj.save()  # Guardamos en la base de datos
+            co2_emisiones = huella_obj.co2_emisiones
             
-            co2_emisiones = huella_obj.calcular_huella()  # Calculamos las emisiones
-            return render(request, 'myapp/huella_result.html', {'co2_emisiones': co2_emisiones, 'huella': huella_obj})
+            return render("perfil.html", {'co2_emisiones': co2_emisiones})
     else:
         form = FormCalculadora()
 

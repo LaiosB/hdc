@@ -137,12 +137,14 @@
 
         // Cálculo de la huella de carbono en la última sección
         const calcularBtn = document.querySelector('#question-4 button[data-next="5"]');
-        calcularBtn.addEventListener('click', () => {
-            const distancia = document.getElementById('distancia').value || 0;
-            const energia = document.getElementById('energia').value || 0;
-            const co2 = calcularHuella(distancia, energia); // Llama a la función de cálculo
-            document.getElementById('resultado-co2').innerText = `${co2} kg CO₂`;
-        });
+        if (calcularBtn) {
+            calcularBtn.addEventListener('click', () => {
+                const distancia = document.getElementById('distancia').value || 0;
+                const energia = document.getElementById('energia').value || 0;
+                const co2 = calcularHuella(distancia, energia); // Llama a la función de cálculo
+                document.getElementById('resultado-co2').innerText = `${co2} kg CO₂`;
+            });
+        }
 
         function calcularHuella(distancia, energia) {
             let co2 = 0;
@@ -151,6 +153,8 @@
             return co2.toFixed(2);  // Devuelve el valor con dos decimales
         }
     });
+    
+
     document.addEventListener('DOMContentLoaded', function() {
         const optionButtons = document.querySelectorAll('.option-button, .option-button_1');
 
