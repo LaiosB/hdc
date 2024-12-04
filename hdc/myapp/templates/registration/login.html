@@ -1,27 +1,32 @@
 {% extends 'myapp/base.html' %}
-
+{% load static % }
 {% block content %}
 
 {% load crispy_forms_tags %}
+<style>
+    .facha{
+        background-image: url("{% static "images/fachafondo.jpg" %}");
+    }
+</style>
+<body class="facha">
 
-<h3>Inicio de sesión</h3>
+    <h3>Inicio de sesión</h3>
 
-<br>
+    <br>
 
-<form action="" method="post">
-    {% csrf_token %}
-    <div class="card mx-auto" style="width: 40rem;">
-            <div class="card-body">
-            <h5 class="card-title">Ingrese sus credenciales</h5>
-            {{ form | crispy}}
-
-
-            <a href={% url 'home' %} class="card-link">Inicio</a>
-            <a href={% url 'register' %} class="card-link">Registrarse</a>
-            <button class="btn btn-sm btn-primary float-end" type="submit">Iniciar Sesión</button>
-            </div>
-        </div
-</form>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="card mx-auto" style="width: 40rem;">
+                <div class="card-body">
+                <h5 class="card-title">Ingrese sus credenciales</h5>
+                {{ form | crispy}}
 
 
+                <a href={% url 'home' %} class="card-link">Inicio</a>
+                <a href={% url 'register' %} class="card-link">Registrarse</a>
+                <button class="btn btn-sm btn-primary float-end" type="submit">Iniciar Sesión</button>
+                </div>
+            </div
+    </form>
+</body>
 {% endblock %}

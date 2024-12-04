@@ -83,7 +83,7 @@ def mapa(request):
         "features": [
             {
                 "type": "Feature",
-                "properties": {"name": "El edificio A posee aproximadamente 3 departamentos esenciales", "info": "El edificio A emite 23.295,6 toneladas de co2 al año"},
+                "properties": {"name": "El edificio A posee 3 departamentos esenciales", "info": "El edificio A emite 23.295,6 toneladas de co2 al año"},
                 "geometry": {
                     "type": "Polygon",
                     "coordinates": [[
@@ -105,7 +105,7 @@ def mapa(request):
             },
             {
                 "type": "Feature",
-                "properties": {"name": "El edificio B posee aproximadamente x personas", "info": "El edificio B emite x cantidad de carbono"},
+                "properties": {"name": "El edificio B posee 3 departamentos esenciales", "info": "El edificio B emite 28.922,8 Toneladas de co2 al año."},
                 "geometry": {
                     "type": "Polygon",
                     "coordinates": [[
@@ -122,7 +122,7 @@ def mapa(request):
             },
             {
                 "type": "Feature",
-                "properties": {"name": "El edificio C posee aproximadamente x personas", "info": "El edificio C emite x cantidad de carbono"},
+                "properties": {"name": "El edificio C posee 1 departamento esencial.", "info": "El edificio C emite 8.950,5 toneladas de co2 al año."},
                 "geometry": {
                     "type": "Polygon",
                     "coordinates": [[
@@ -137,7 +137,7 @@ def mapa(request):
             },
             {
                 "type": "Feature",
-                "properties": {"name": "El edificio E posee aproximadamente x personas", "info": "El edificio E emite x cantidad de carbono"},
+                "properties": {"name": "El edificio E posee 1 departamento esencial.", "info": "El edificio E emite 9.013,5 toneladas de co2 al año"},
                 "geometry": {
                     "type": "Polygon",
                     "coordinates": [[
@@ -155,7 +155,7 @@ def mapa(request):
             },
             {
                 "type": "Feature",
-                "properties": {"name": "El edificio F posee aproximadamente x personas", "info": "El edificio F emite x cantidad de carbono)?"},
+                "properties": {"name": "El edificio F posee 0 departamentos esenciales.", "info": "El edificio F no emite co2 en base a nuestro modelo generalizado."},
                 "geometry": {
                     "type": "Polygon",
                     "coordinates": [[
@@ -171,7 +171,7 @@ def mapa(request):
             },
             {
                 "type": "Feature",
-                "properties": {"name": "El edificio K posee aproximadamente x personas", "info": "El edificio K emite x cantidad de carbono)?"},
+                "properties": {"name": "El edificio K posee 3 departamentos esenciales.", "info": "El edificio K emite 24.983,5 toneladas de co2 al año."},
                 "geometry": {
                     "type": "Polygon",
                     "coordinates": [[
