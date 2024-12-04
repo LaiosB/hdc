@@ -83,7 +83,7 @@ def mapa(request):
         "features": [
             {
                 "type": "Feature",
-                "properties": {"name": "El edificio A posee aproximadamente x personas", "info": "El edificio A emite x cantidad de carbono"},
+                "properties": {"name": "El edificio A posee aproximadamente 3 departamentos esenciales", "info": "El edificio A emite 23.295,6 toneladas de co2 al año"},
                 "geometry": {
                     "type": "Polygon",
                     "coordinates": [[
