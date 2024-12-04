@@ -1,31 +1,51 @@
 {% extends 'myapp/base.html' %}
-
+{% load static %}
 {% block content %}
 
 {% load crispy_forms_tags %}
-
-<h3>Registro de usuario</h3>
-
-<br>
-
-<form action="" method="post">
-    {% csrf_token %}
-    <div class="card mx-auto" style="width: 40rem;">
-            <div class="card-body">
-            <h5 class="card-title">Complete todos los campos</h5>
-            {{ form | crispy}}
-
-
-            <a href={% url 'home' %} class="card-link">Inicio</a>
-            <a href={% url 'login' %} class="card-link">Iniciar sesión </a>
-            <button class="btn btn-sm btn-primary float-end" type="submit">Registrarse</button>
-            </div>
-        </div>
+<style>
+    .facha{
+        background-image: url("{% static "images/fondoc.jpg" %}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        min-height: 100vh;
+    }
+    .subtitulo{
+        text-align: center;
+        color: white;
+        border-radius: 10px;
+        background-color: green;
+        padding: 10px;
+        margin-top: 20px;
         
+    }
+</style>
+
+<body class="facha">
+
+    <h3 class="subtitulo">Registro de usuario</h3>
+
+    <br>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="card mx-auto" style="width: 40rem; border-radius:10px; border-color:green;">
+                <div class="card-body">
+                <h5 class="card-title">Complete todos los campos</h5>
+                {{ form | crispy}}
+
+
+                <a href={% url 'home' %} class="card-link">Inicio</a>
+                <a href={% url 'login' %} class="card-link">Iniciar sesión </a>
+                <button class="btn btn-sm btn-primary float-end" type="submit">Registrarse</button>
+                </div>
+            </div>
+            
 
 
 
-</form>
-
-
+    </form>
+</body>
 {% endblock %}

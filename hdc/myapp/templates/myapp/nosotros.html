@@ -1,8 +1,37 @@
 {% extends 'myapp/base.html' %}
-
+{% load static %}
 {% block content %}
+<style>
+    .facha{
+        background-image: url("{% static "images/frontis.webp" %}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        min-height: 100vh;
+    }
+    .borde-color{
+        border: 2px solid black;
+        color: green;
+        border-radius: 10px;
+        background-color: white;
+        padding: 10px;
+        margin-top: 20px;
+
+    }
+    .accordion{
+        margin-top: 20px;
+        border: 1px solid black;
+        border-radius: 10px;
+    }
+    .accordion-item{
+        border: 1px solid black;
+        border-radius: 5px;
+    }
+</style>
+<body class="facha">
     <div class="container mt-5">
-        <h2 class="text-center text-success mb-4">Preguntas Frecuentes</h2>
+        <h2 class="text-center text-success mb-4 borde-color">Preguntas Frecuentes</h2>
 
         <!-- Accordion con las secciones de contenido -->
         <div class="accordion" id="accordionExample">
@@ -110,4 +139,5 @@
 
         </div>
     </div>
+</body>
 {% endblock %}
