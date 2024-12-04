@@ -11,6 +11,30 @@
         background-attachment: fixed;
         min-height: 100vh;
     }
+    .list-group-item{
+        border: 1px solid black;
+        border-radius: 10px;
+    }
+    .text-success{
+        border: 1px solid black;
+        border-radius: 10px;
+        padding: 10px;
+        background-color: white;
+    }
+    .lead{
+        border: 1px solid black;
+        border-radius: 10px;
+        padding: 5px;
+        background-color: white;
+        color: black;
+    }
+    .col-md-8{
+        border: 2px solid black;
+        padding: 1px;
+        margin-top: 20px;
+        height: 525px;
+        width: 66%;   
+    }
 </style>
 <body class="fondoa">
     <div class="row mt-5"> 
@@ -168,7 +192,7 @@
                 </li>
             </ol>
         </div>
-        <div class="col-md-8" map-container>
+        <div class="col-md-8" >
             {{ mapa|safe }}
         </div>
         <div class="col-md-12">
